@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZeroIDE MCP — дайте ИИ руки, а ключ оставьте себе</title>
+<meta name="description" content="ZeroIDE MCP — бесплатная программа для Windows, которая позволяет ChatGPT, Claude, Notion, Cursor и другим ИИ работать на вашем компьютере. Выключена по умолчанию, спрашивает разрешения, записывает каждое действие.">
+<meta property="og:title" content="ZeroIDE MCP — дайте ИИ руки, а ключ оставьте себе">
+<meta property="og:description" content="Любой ИИ может работать на вашем Windows-ПК. Только пока вы это разрешаете.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://danywalery.github.io/zeroide-mcp-site/">
+<meta property="og:image" content="https://danywalery.github.io/zeroide-mcp-site/assets/poster-overview.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://danywalery.github.io/zeroide-mcp-site/assets/poster-overview.jpg">
+<meta name="theme-color" content="#060709">
+<link rel="icon" type="image/svg+xml" href="assets/mark.svg">
+<link rel="preload" href="assets/fonts/unbounded-cyrillic-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-cyrillic-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="css/stage.css">
+<link rel="stylesheet" href="css/sections.css">
+<script>document.documentElement.classList.add("js");try{var l=localStorage.getItem("zi-lang")||((navigator.language||"").toLowerCase().indexOf("ru")===0?"ru":"en");document.documentElement.setAttribute("data-lang",l)}catch(e){}</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a1d23"/><stop offset="1" stop-color="#0b0c0f"/></linearGradient>
+  </defs>
+  <symbol id="i-z" viewBox="0 0 32 32"><rect x=".75" y=".75" width="30.5" height="30.5" rx="9" fill="url(#gz)" stroke="rgba(255,255,255,.18)" stroke-width="1.2"/><path d="M10.5 10.5h11l-11 11h11" fill="none" stroke="#c6f82c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+  <symbol id="i-win" viewBox="0 0 24 24"><path fill="#5fb4ff" d="M3 3h8.5v8.5H3zM12.5 3H21v8.5h-8.5zM3 12.5h8.5V21H3zM12.5 12.5H21V21h-8.5z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="w nav-in">
+    <a class="brand" href="#top" aria-label="ZeroIDE MCP">
+      <svg class="mark"><use href="#i-z"/></svg><span>ZeroIDE MCP</span>
+    </a>
+    <nav class="nav-links" aria-label="Разделы">
+      <a href="#live" data-i18n="nav.live">Демо</a>
+      <a href="#what" data-i18n="nav.what">Что это</a>
+      <a href="#how" data-i18n="nav.how">Как работает</a>
+      <a href="#tools" data-i18n="nav.tools">Возможности</a>
+      <a href="#control" data-i18n="nav.safe">Безопасность</a>
+      <a href="#video" data-i18n="nav.video">Видео</a>
+      <a href="#install" data-i18n="nav.install">Установка</a>
+    </nav>
+    <div class="nav-r">
+      <span class="nav-status" aria-live="polite"><i class="dot" id="navDot"></i><span id="navState" data-i18n="nav.off">MCP: ВЫКЛ</span></span>
+      <div class="lang" role="group" aria-label="Язык / Language">
+        <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-sm btn-lime" href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip"><svg width="16" height="16"><use href="#i-dl"/></svg><span data-i18n="nav.dl">Скачать</span></a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mmenu" id="mmenu">
+  <a href="#live" data-i18n="nav.live">Демо</a>
+  <a href="#what" data-i18n="nav.what">Что это</a>
+  <a href="#how" data-i18n="nav.how">Как работает</a>
+  <a href="#tools" data-i18n="nav.tools">Возможности</a>
+  <a href="#control" data-i18n="nav.safe">Безопасность</a>
+  <a href="#video" data-i18n="nav.video">Видео</a>
+  <a href="#install" data-i18n="nav.install">Установка</a>
+  <a class="btn btn-lg btn-lime" href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip"><svg width="18" height="18"><use href="#i-dl"/></svg><span data-i18n="hero.cta">Скачать для Windows</span></a>
+</div>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <canvas class="hero-field" id="field" aria-hidden="true"></canvas>
+  <div class="hero-glow v"></div><div class="hero-glow l"></div>
+  <div class="w hero-in">
+    <a class="pill rv" href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest" target="_blank" rel="noopener"><b>v0.4.0</b><span data-i18n="hero.pill">Бесплатно и с открытым кодом · Windows 10 и 11</span><span aria-hidden="true">→</span></a>
+    <h1 class="hero-h rv" style="--d:.08s"><span class="l1" data-i18n="hero.l1">ИИ умеет советовать.</span><span class="l2" data-i18n="hero.l2">Теперь — <em>делать.</em></span></h1>
+
+    <div class="power rv" id="power" style="--d:.16s">
+      <button type="button" class="sw" id="sw" role="switch" aria-checked="false" aria-labelledby="pwState"><span class="sw-knob"></span><span class="sw-ring"></span></button>
+      <div class="power-txt">
+        <b><i class="dot" id="pwDot"></i><span id="pwState" data-i18n="pw.off">MCP выключен</span></b>
+        <span id="pwHint" data-i18n="pw.hintOff">Как и ZeroIDE MCP, этот сайт по умолчанию выключен. Нажмите на переключатель.</span>
+      </div>
+    </div>
+
+    <p class="hero-lead rv" style="--d:.24s" data-i18n="hero.lead"><strong>ZeroIDE MCP</strong> — бесплатная программа для Windows. С ней ChatGPT, Claude, Notion, Cursor и другие ИИ работают прямо на вашем компьютере: ищут и правят файлы, наводят порядок, запускают программы и команды. Включается одной кнопкой в трее и ничего важного не делает без вашего «да».</p>
+    <div class="hero-cta rv" style="--d:.3s">
+      <a class="btn btn-lg btn-lime magnet" href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip"><svg width="20" height="20"><use href="#i-dl"/></svg><span data-i18n="hero.cta">Скачать для Windows</span></a>
+      <button type="button" class="btn btn-lg btn-ghost magnet" data-modal="assets/demo-overview.mp4" data-poster="assets/poster-overview.jpg"><span class="play"><svg width="12" height="12"><use href="#i-play"/></svg></span><span data-i18n="hero.watch">Смотреть за 60 секунд</span></button>
+    </div>
+    <p class="hero-meta rv" style="--d:.36s">
+      <span><svg width="14" height="14"><use href="#i-check"/></svg><span data-i18n="hero.m1">Бесплатно навсегда</span></span>
+      <span><svg width="14" height="14"><use href="#i-check"/></svg><span data-i18n="hero.m2">68 МБ, без прав администратора</span></span>
+      <span><svg width="14" height="14"><use href="#i-check"/></svg><span data-i18n="hero.m3">Удаляется одной кнопкой</span></span>
+    </p>
+  </div>
+  <div class="cue" aria-hidden="true"><span data-i18n="hero.cue">Листайте</span><i></i></div>
+</section>
+
+<!-- ============ CLIENTS ============ -->
+<section class="marquee" aria-label="Совместимые клиенты">
+  <p class="marquee-l" data-i18n="marq.l">Работает с любым ИИ, который поддерживает MCP</p>
+  <div class="marquee-wrap"><div class="marquee-t" id="marq">
+    <span>Claude</span><span>ChatGPT</span><span>Notion</span><span>Cursor</span><span>Codex</span><span>Claude Code</span><span data-i18n="marq.any">любой MCP-клиент</span><span>Tailscale</span><span>ngrok</span><span>Cloudflare Tunnel</span>
+  </div></div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto">
+  <div class="w">
+    <p class="eyebrow lime rv" data-i18n="man.eye">Зачем это нужно</p>
+    <p class="scrub" id="scrub" style="margin-top:34px" data-i18n="man.text">Сегодня ИИ — как гениальный консультант по телефону. Он подскажет, какие файлы удалить, какую команду ввести и где искать ошибку. Но нажимать кнопки всё равно вам. <em>ZeroIDE MCP даёт ИИ руки.</em> А ключ остаётся у вас.</p>
+    <div class="manifesto-foot">
+      <div class="mf rv"><b data-count="14">14</b><span data-i18n="man.s1">инструментов<br>для ИИ</span></div>
+      <div class="mf rv" style="--d:.08s"><b data-i18n="man.zero">0 ₽</b><span data-i18n="man.s2">бесплатно,<br>открытый код MIT-0</span></div>
+      <div class="mf rv" style="--d:.16s"><b data-count="1">1</b><span data-i18n="man.s3">кнопка, чтобы<br>закрыть доступ</span></div>
+      <div class="mf rv" style="--d:.24s"><b data-count="60" data-suf=" с">60 с</b><span data-i18n="man.s4">на ваше решение,<br>потом — отказ</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIVE DEMO ============ -->
+<section class="sec live" id="live">
+  <div class="w">
+    <div class="sec-head">
+      <p class="eyebrow lime rv" data-i18n="live.eye">Живая демонстрация</p>
+      <h2 class="h2 rv" data-i18n="live.h2">Попробуйте сами. <em>Вы — владелец этого ПК.</em></h2>
+      <p class="sub rv" data-i18n="live.sub">Выберите задачу. ИИ пишет в чате слева и работает на «компьютере» справа. Чтение проходит сразу, а всё, что меняет ПК, ждёт вашей кнопки. Это иллюстрация, но логика та же, что в настоящей программе.</p>
+    </div>
+
+    <div class="scen rv" role="tablist" aria-label="Сценарии" id="scen">
+      <button type="button" class="scen-b" role="tab" aria-selected="true" data-s="tidy"><span class="scen-i">🗂</span><span><b data-i18n="sc.tidy">Разобрать «Загрузки»</b><small data-i18n="sc.tidyS">команда · нужно ваше «да»</small></span></button>
+      <button type="button" class="scen-b" role="tab" aria-selected="false" data-s="find"><span class="scen-i">🔎</span><span><b data-i18n="sc.find">Найти в документах</b><small data-i18n="sc.findS">только чтение · без вопросов</small></span></button>
+      <button type="button" class="scen-b" role="tab" aria-selected="false" data-s="fix"><span class="scen-i">🩺</span><span><b data-i18n="sc.fix">Почему ошибка?</b><small data-i18n="sc.fixS">снимок экрана и правка файла</small></span></button>
+      <button type="button" class="scen-b" role="tab" aria-selected="false" data-s="multi"><span class="scen-i">🖥</span><span><b data-i18n="sc.multi">Два ПК, одна задача</b><small data-i18n="sc.multiS">сборка на одном, тесты на другом</small></span></button>
+    </div>
+
+    <div class="stage rv-scale" id="stage">
+      <div class="stage-glow"></div>
+      <div class="chat">
+        <div class="chat-h">
+          <span class="ava ai">✦</span>
+          <div><b data-i18n="chat.name">Ваш ИИ-ассистент</b><small><i class="dot on"></i><span data-i18n="chat.conn">подключён к ZeroIDE MCP</span></small></div>
+        </div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="composer"><span id="compose" data-i18n="chat.ph">Напишите задачу…</span><i aria-hidden="true">↑</i></div>
+      </div>
+      <div class="pc" id="pc">
+        <div class="pc-wall"></div>
+        <div class="pc-screen" id="pcScreen"></div>
+        <div class="pc-note" id="pcNote"></div>
+        <div class="shot-frame" id="shotFrame"></div>
+        <div class="flash" id="flash"></div>
+        <div class="taskbar">
+          <span class="tb-i tb-start"><svg><use href="#i-win"/></svg></span>
+          <span class="tb-i act"><svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h5l2 2h8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" fill="#f4c04f"/></svg></span>
+          <span class="tb-i"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#2f8cff"/><path d="M5 14c2-5 12-6 14-1" stroke="#7fe0ff" stroke-width="2.4" fill="none"/></svg></span>
+          <span class="tb-i"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="#20232b" stroke="#5a5f6b"/><path d="m7 9 3 3-3 3M12 15h5" stroke="#cfd3dc" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></span>
+          <div class="tray">
+            <span style="opacity:.6">⌃</span>
+            <span class="tray-z" id="trayZ" title="ZeroIDE MCP"><svg><use href="#i-z"/></svg></span>
+            <span style="opacity:.8">ᯤ</span>
+            <time id="clock">13:11<br>17.11.2026</time>
+          </div>
+        </div>
+        <div class="pc-off">
+          <div>
+            <div class="lock"><svg width="26" height="26"><use href="#i-lock"/></svg></div>
+            <b data-i18n="off.t">MCP выключен</b>
+            <p data-i18n="off.p">ИИ не может сделать на этом ПК ровным счётом ничего. Так программа и работает по умолчанию.</p>
+            <button type="button" class="btn btn-sm btn-lime" id="offOn" data-i18n="off.b">Включить MCP</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="audit rv">
+      <div class="audit-h"><i class="dot on"></i>audit.jsonl <span data-i18n="audit.h">— журнал аудита: каждый вызов записывается, секреты скрыты</span></div>
+      <ol id="audit"></ol>
+    </div>
+    <div class="live-foot">
+      <div class="legend">
+        <span><i class="dot on"></i><span data-i18n="lg.ok">разрешено</span></span>
+        <span><i class="dot" style="background:var(--amber)"></i><span data-i18n="lg.ask">ждёт вашего решения</span></span>
+        <span><i class="dot" style="background:var(--red)"></i><span data-i18n="lg.no">отклонено</span></span>
+      </div>
+      <button type="button" class="replay" id="replay">↻ <span data-i18n="lg.replay">Запустить сценарий заново</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT IS MCP ============ -->
+<section class="sec" id="what">
+  <div class="w what-grid">
+    <div class="usb rv-scale" id="usb">
+      <svg viewBox="0 0 600 490" aria-hidden="true">
+        <defs>
+          <linearGradient id="gV" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ab98ff"/><stop offset="1" stop-color="#5339d4"/></linearGradient>
+          <radialGradient id="gL"><stop offset="0" stop-color="#c6f82c" stop-opacity=".55"/><stop offset="1" stop-color="#c6f82c" stop-opacity="0"/></radialGradient>
+          <linearGradient id="gP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2f3f6"/><stop offset="1" stop-color="#9ea2ac"/></linearGradient>
+        </defs>
+        <circle class="port-glow" cx="400" cy="245" r="120" fill="url(#gL)"/>
+        <g class="plug">
+          <path class="cable" d="M-120 245 H300" stroke="#c6f82c" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <rect x="296" y="226" width="56" height="38" rx="8" fill="url(#gP)"/>
+          <rect x="350" y="234" width="14" height="22" rx="2" fill="#c9ccd3"/>
+          <rect x="304" y="236" width="6" height="18" rx="2" fill="#7a7e88"/>
+        </g>
+        <rect x="40" y="170" width="150" height="150" rx="38" fill="url(#gV)"/>
+        <text x="115" y="262" text-anchor="middle" font-family="Unbounded, Inter, sans-serif" font-size="40" font-weight="700" fill="#fff" data-i18n-svg="usb.ai">ИИ</text>
+        <rect x="362" y="190" width="110" height="110" rx="28" fill="#101216" stroke="#c6f82c" stroke-width="2"/>
+        <path d="M398 222h38l-38 46h38" fill="none" stroke="#c6f82c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M472 245 H500" stroke="rgba(255,255,255,.3)" stroke-width="3" stroke-dasharray="4 6"/>
+        <rect x="502" y="205" width="78" height="56" rx="8" fill="#16181e" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+        <rect x="510" y="213" width="62" height="40" rx="3" fill="#2a3a70"/>
+        <path d="M531 261v14M552 261v14M522 278h38" stroke="rgba(255,255,255,.35)" stroke-width="3" stroke-linecap="round"/>
+        <text x="115" y="360" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#8b8f9b" data-i18n-svg="usb.l1">ChatGPT, Claude…</text>
+        <text x="417" y="340" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#c6f82c">ZeroIDE MCP</text>
+        <text x="541" y="310" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#8b8f9b" data-i18n-svg="usb.l3">Ваш ПК</text>
+      </svg>
+      <div class="usb-cap"><span>Model Context Protocol</span><b data-i18n="usb.ok">● подключено</b></div>
+    </div>
+    <div>
+      <p class="eyebrow lime rv" data-i18n="what.eye">Что такое MCP</p>
+      <h2 class="h2 rv" data-i18n="what.h2">MCP — это <em>USB-порт</em> для искусственного интеллекта.</h2>
+      <p class="sub rv" data-i18n="what.sub">Model Context Protocol — открытый стандарт, через который ИИ-приложения подключают внешние инструменты. ZeroIDE MCP — такой инструмент, и подключает он ваш Windows-ПК. Это небольшая программа в трее, рядом с часами.</p>
+      <ul class="isnt">
+        <li class="rv"><span class="ii y">✓</span><div><b data-i18n="what.i1">Программа на вашем ПК</b><p data-i18n="what.i1p">Работает у вас и слушает только 127.0.0.1. У проекта нет своего сервера-посредника: аккаунты и адреса — ваши.</p></div></li>
+        <li class="rv" style="--d:.06s"><span class="ii y">✓</span><div><b data-i18n="what.i2">14 инструментов для ИИ</b><p data-i18n="what.i2p">Команды PowerShell, файлы, снимок экрана, сообщения вам и журналы. ИИ сам выбирает, чем воспользоваться под задачу.</p></div></li>
+        <li class="rv" style="--d:.12s"><span class="ii n">✕</span><div><b data-i18n="what.i3">Не ещё один чат-бот и не подписка</b><p data-i18n="what.i3p">Пользуйтесь тем ИИ, который у вас уже есть. ZeroIDE MCP бесплатен, а его код открыт (лицензия MIT-0).</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO ============ -->
+<section class="sec" id="who" style="padding-top:60px">
+  <div class="w">
+    <div class="sec-head">
+      <p class="eyebrow lime rv" data-i18n="who.eye">Кому это нужно</p>
+      <h2 class="h2 rv" data-i18n="who.h2">Найдите себя. <span class="mute">Вот что ИИ сделает за вас.</span></h2>
+    </div>
+    <div class="who-tabs rv" role="tablist" id="whoTabs"></div>
+    <div id="whoPanel"></div>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="sec" id="how">
+  <div class="w">
+    <div class="sec-head">
+      <p class="eyebrow lime rv" data-i18n="how.eye">Как это работает</p>
+      <h2 class="h2 rv" style="max-width:22ch" data-i18n="how.h2">Между ИИ и вашим ПК — <em>пропускной пункт.</em> Ключ от него у вас.</h2>
+      <p class="sub rv" data-i18n="how.sub">ZeroIDE MCP стоит на входе и проверяет каждый запрос. Выключите его прямо на схеме и посмотрите, что станет с запросами.</p>
+    </div>
+    <div class="gate rv-scale" id="gate">
+      <canvas id="gateCv" aria-hidden="true"></canvas>
+      <div class="gnodes">
+        <div class="gn ai" data-n="0"><div class="gi">✦</div><b data-i18n="how.n1">ИИ где угодно</b><small data-i18n="how.n1s">Веб-чат, агент на этом ПК или на другом компьютере</small></div>
+        <div class="gn" data-n="1"><div class="gi">⇄</div><b data-i18n="how.n2">Связь</b><small data-i18n="how.n2s">Только этот ПК, Tailscale, ngrok, Cloudflare Tunnel или свой SSH</small></div>
+        <div class="gn key" data-n="2" id="gKey"><div class="gi"><svg width="26" height="26"><use href="#i-lock"/></svg></div><b>ZeroIDE MCP</b><small data-i18n="how.n3s">Выключатель, подтверждения, пропуска, журнал</small>
+          <button type="button" class="gsw" id="gSw" role="switch" aria-checked="true"><i></i><span id="gSwT" data-i18n="how.on">MCP ВКЛ</span></button></div>
+        <div class="gn" data-n="3"><div class="gi">🖥</div><b data-i18n="how.n4">Ваш Windows-ПК</b><small data-i18n="how.n4s">PowerShell, файлы и экран</small></div>
+      </div>
+      <div class="glegend">
+        <span><i style="background:var(--lime)"></i><span data-i18n="how.l1">Чтение — проходит сразу</span></span>
+        <span><i style="background:var(--amber)"></i><span data-i18n="how.l2">Запись и команды — ждут вашего «да»</span></span>
+        <span><i style="background:var(--red)"></i><span data-i18n="how.l3">MCP выключен — отказ всем</span></span>
+      </div>
+    </div>
+    <div class="steps3">
+      <div class="step3 rv"><div class="n">01</div><h3 data-i18n="how.s1">Вы включаете</h3><p data-i18n="how.s1p">Одним щелчком в трее. Сервер слушает только 127.0.0.1 и работает, только пока включён.</p></div>
+      <div class="step3 rv" style="--d:.08s"><div class="n">02</div><h3 data-i18n="how.s2">ИИ просит</h3><p data-i18n="how.s2p">Каждый вызов приходит с короткой запиской: что ИИ хочет сделать и зачем.</p></div>
+      <div class="step3 rv" style="--d:.16s"><div class="n">03</div><h3 data-i18n="how.s3">Вы решаете</h3><p data-i18n="how.s3p">Чтение разрешено сразу. Запись, правка файлов и команды ждут вашего «Разрешить». Нет ответа за 60 секунд — отказ.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section class="sec" id="tools">
+  <div class="w">
+    <div class="tools-top">
+      <div class="big14 rv" aria-hidden="true">14</div>
+      <div>
+        <p class="eyebrow lime rv" data-i18n="tools.eye">Возможности</p>
+        <h2 class="h2 rv" data-i18n="tools.h2">Всё, что нужно ИИ, чтобы работать на ПК.</h2>
+        <p class="sub rv" data-i18n="tools.sub">Каждый инструмент — простая способность. ИИ комбинирует их сам: найти → прочитать → поправить → проверить → отчитаться.</p>
+      </div>
+    </div>
+    <div class="tgrid">
+      <article class="tg wide card rv">
+        <div class="tg-h"><span class="gi">⌘</span><b data-i18n="tg.cmd">Команды</b><small>3</small></div>
+        <ul class="tl">
+          <li><b data-i18n="t.run">Запускать команды и программы</b><code>run_command</code><span class="tag tag-ask" data-i18n="t.ask">ваше «да»</span></li>
+          <li><b data-i18n="t.js">Следить за долгой задачей</b><code>job_status</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.jo">Читать, что вывела задача</b><code>job_output</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+        </ul>
+        <div class="term-mini" id="termMini" aria-hidden="true"></div>
+      </article>
+      <article class="tg wide card rv" style="--d:.06s">
+        <div class="tg-h"><span class="gi">📁</span><b data-i18n="tg.files">Файлы</b><small>5</small></div>
+        <ul class="tl">
+          <li><b data-i18n="t.rf">Читать файлы</b><code>read_file</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.ld">Смотреть, что лежит в папке</b><code>list_directory</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.sf">Искать текст по файлам</b><code>search_files</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.wf">Создавать и перезаписывать файлы</b><code>write_file</code><span class="tag tag-ask" data-i18n="t.ask">ваше «да»</span></li>
+          <li><b data-i18n="t.ef">Точечно править фрагмент</b><code>edit_file</code><span class="tag tag-ask" data-i18n="t.ask">ваше «да»</span></li>
+        </ul>
+      </article>
+      <article class="tg card rv">
+        <div class="tg-h"><span class="gi">📸</span><b data-i18n="tg.screen">Экран</b><small>1</small></div>
+        <ul class="tl">
+          <li><b data-i18n="t.ts">Снимок экрана</b><code>take_screenshot</code><span class="tag tag-ask" data-i18n="t.askShot">спросит</span></li>
+        </ul>
+        <p style="margin-top:12px;font-size:14px" data-i18n="t.tsp">Вы видите превью снимка и сами решаете, отправлять ли его ИИ.</p>
+      </article>
+      <article class="tg card rv" style="--d:.06s">
+        <div class="tg-h"><span class="gi">💬</span><b data-i18n="tg.talk">Связь с вами</b><small>2</small></div>
+        <ul class="tl">
+          <li><b data-i18n="t.um">Сообщение вам в трей</b><code>user_message</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.tst">Показывать, над чем работает</b><code>task_status</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+        </ul>
+      </article>
+      <article class="tg card rv" style="--d:.12s">
+        <div class="tg-h"><span class="gi">📜</span><b data-i18n="tg.rec">Записи</b><small>3</small></div>
+        <ul class="tl">
+          <li><b data-i18n="t.al">Журнал всех вызовов</b><code>audit_log</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.je">Записать итог работы</b><code>journal_entry</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+          <li><b data-i18n="t.jl">Вспомнить, что уже сделано</b><code>journal_log</code><span class="tag tag-ok" data-i18n="t.ok">сразу</span></li>
+        </ul>
+      </article>
+    </div>
+    <div class="tools-foot">
+      <span><span class="tag tag-ok" data-i18n="t.ok">сразу</span><span data-i18n="tf.1">разрешено по умолчанию</span></span>
+      <span><span class="tag tag-ask" data-i18n="t.ask">ваше «да»</span><span data-i18n="tf.2">ждёт подтверждения в трее</span></span>
+      <span><span class="tag tag-n">⚙</span><span data-i18n="tf.3">правила можно изменить в настройках</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTROL ============ -->
+<section class="sec" id="control">
+  <div class="w">
+    <div class="sec-head">
+      <p class="eyebrow lime rv" data-i18n="ctl.eye">Безопасность и контроль</p>
+      <h2 class="h2 rv" data-i18n="ctl.h2">Выдайте ИИ <em>пропуск,</em> а не ключи от всего.</h2>
+      <p class="sub rv" data-i18n="ctl.sub">Каждому ИИ — свой пропуск: вход через OAuth с подтверждением в трее или именной токен. Соберите пропуск сами и посмотрите, что он открывает.</p>
+    </div>
+    <div class="ctrl">
+      <div class="bld rv">
+        <div class="fld"><small data-i18n="ctl.f0">Для кого</small><div class="seg" data-k="who"><button type="button" aria-pressed="true" data-v="Claude">Claude</button><button type="button" aria-pressed="false" data-v="ChatGPT">ChatGPT</button><button type="button" aria-pressed="false" data-v="Notion">Notion</button><button type="button" aria-pressed="false" data-v="Cursor">Cursor</button></div></div>
+        <div class="fld"><small data-i18n="ctl.f1">Уровень доступа</small><div class="seg" data-k="scope"><button type="button" aria-pressed="true" data-v="read" data-i18n="ctl.read">Только чтение</button><button type="button" aria-pressed="false" data-v="readwrite" data-i18n="ctl.rw">Чтение и запись</button><button type="button" aria-pressed="false" data-v="full" data-i18n="ctl.full">Полный</button></div><p class="hint" id="scopeHint"></p></div>
+        <div class="fld"><small data-i18n="ctl.f2">Папка</small><div class="seg" data-k="root"><button type="button" aria-pressed="false" data-v="all" data-i18n="ctl.all">Весь ПК</button><button type="button" aria-pressed="true" data-v="proj">C:\Projects</button></div></div>
+        <div class="fld"><small data-i18n="ctl.f3">Срок действия</small><div class="seg" data-k="exp"><button type="button" aria-pressed="false" data-v="1">1 д</button><button type="button" aria-pressed="true" data-v="7">7 д</button><button type="button" aria-pressed="false" data-v="30">30 д</button><button type="button" aria-pressed="false" data-v="0" data-i18n="ctl.never">Бессрочно</button></div></div>
+        <div class="fld"><small data-i18n="ctl.f4">Лимит запросов</small><div class="seg" data-k="lim"><button type="button" aria-pressed="false" data-v="0" data-i18n="ctl.nolim">Без лимита</button><button type="button" aria-pressed="true" data-v="500">500</button><button type="button" aria-pressed="false" data-v="5000">5 000</button></div></div>
+      </div>
+      <div class="pass-stage rv-scale">
+        <div class="pass" id="pass">
+          <div class="pass-top"><svg class="mark"><use href="#i-z"/></svg><b data-i18n="pass.t">ПРОПУСК ДЛЯ ИИ</b><span class="pass-chip"></span></div>
+          <div class="pass-name" id="pName">Claude · C:\Projects</div>
+          <div class="pass-f">
+            <div><small data-i18n="pass.a">Доступ</small><span id="pScope">—</span></div>
+            <div><small data-i18n="pass.r">Папка</small><span id="pRoot">—</span></div>
+            <div><small data-i18n="pass.e">Срок</small><span id="pExp">—</span></div>
+            <div><small data-i18n="pass.l">Лимит</small><span id="pLim">—</span></div>
+          </div>
+          <div class="pass-tools" id="pTools"></div>
+          <div class="pass-count"><span id="pCount">—</span><span data-i18n="pass.k">ключ хранится как SHA-256</span></div>
+          <div class="stamp" data-i18n="pass.rev">ОТОЗВАН</div>
+        </div>
+        <div class="pass-shadow"></div>
+        <div class="pass-act"><button type="button" class="btn btn-sm btn-ghost" id="revoke" data-i18n="pass.revB">Отозвать пропуск</button></div>
+      </div>
+    </div>
+
+    <div class="safe-grid">
+      <article class="card rv"><div class="gi"><svg viewBox="0 0 24 24"><path d="M12 3v8M6.3 6.8a8 8 0 1 0 11.4 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div><h3 data-i18n="sf.1">Выключен по умолчанию</h3><p data-i18n="sf.1p">Сервер слушает только 127.0.0.1 и работает, только пока включён в трее. Выключили или закрыли трей — доступ закрыт.</p></article>
+      <article class="card rv" style="--d:.06s"><div class="gi"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></div><h3 data-i18n="sf.2">Подтверждения</h3><p data-i18n="sf.2p">Запись, правка файлов и команды ждут вашего решения в трее. Нет ответа за 60 секунд — отказ.</p></article>
+      <article class="card rv" style="--d:.12s"><div class="gi"><svg viewBox="0 0 24 24"><use href="#i-lock"/></svg></div><h3 data-i18n="sf.3">Токены под замком</h3><p data-i18n="sf.3p">Без токена сервер не ответит. Токены хранятся как SHA-256-хеши, а в адресной строке их по умолчанию не принимают.</p></article>
+      <article class="card rv"><div class="gi"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM9 11h7M9 15h7M9 7h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><h3 data-i18n="sf.4">Журнал аудита</h3><p data-i18n="sf.4p">Каждый вызов записывается, секреты маскируются. Всегда видно, что, когда и зачем сделал ИИ.</p></article>
+      <article class="card rv" style="--d:.06s"><div class="gi"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><h3 data-i18n="sf.5">Ваши аккаунты и адреса</h3><p data-i18n="sf.5p">Между ИИ и ПК нет сервера проекта. Связь идёт через то, что выбрали вы.</p></article>
+      <article class="card rv" style="--d:.12s"><div class="gi"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><h3 data-i18n="sf.6">Чистое удаление</h3><p data-i18n="sf.6p">Одна кнопка в настройках удаляет программу, токены, журналы, ярлык в «Пуске» и автозапуск.</p></article>
+    </div>
+    <div class="honest rv">
+      <div class="gi">!</div>
+      <div><h3 data-i18n="hon.h">Честно о главном: это не песочница.</h3><p data-i18n="hon.p">Разрешённые команды выполняются с правами вашего пользователя Windows. Относитесь к любому подключению как к удалённому управлению ПК и прочитайте <a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/SECURITY.md" target="_blank" rel="noopener">заметки о безопасности</a>.</p></div>
+      <ul><li data-i18n="hon.1">Разрешайте только то, что понимаете</li><li data-i18n="hon.2">Давайте ИИ минимальный доступ</li><li data-i18n="hon.3">Выключайте MCP, когда он не нужен</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NETWORK ============ -->
+<section class="sec" id="network">
+  <div class="w">
+    <div class="net">
+      <div>
+        <p class="eyebrow lime rv" data-i18n="net.eye">Несколько компьютеров</p>
+        <h2 class="h2 rv" data-i18n="net.h2">Один ИИ. <em>Сколько угодно ПК.</em></h2>
+        <p class="sub rv" data-i18n="net.sub">Поставьте ZeroIDE MCP на каждый компьютер и добавьте каждый в ИИ-клиент отдельно. Тогда один агент ведёт одну задачу сразу на нескольких машинах.</p>
+        <ul class="net-list">
+          <li class="rv"><span class="gi">1</span><span data-i18n="net.1"><b>Собрать на одном, проверить на другом.</b> Например, сборка на домашнем ПК, тесты на ноутбуке, отчёт — на рабочем.</span></li>
+          <li class="rv" style="--d:.06s"><span class="gi">2</span><span data-i18n="net.2"><b>Своя частная сеть.</b> Компьютеры в сети Tailscale видят друг друга без публичного адреса.</span></li>
+          <li class="rv" style="--d:.12s"><span class="gi">3</span><span data-i18n="net.3"><b>У каждого ПК свои правила.</b> Свои подтверждения, пропуска и журнал. Пропуск одного ПК не подходит к другому.</span></li>
+        </ul>
+      </div>
+      <div class="constel rv-scale">
+        <svg viewBox="0 0 600 516" aria-hidden="true">
+          <defs><radialGradient id="gA"><stop offset="0" stop-color="#937dff" stop-opacity=".5"/><stop offset="1" stop-color="#937dff" stop-opacity="0"/></radialGradient></defs>
+          <path id="p1" class="ln" d="M300 110 C 220 170, 140 220, 120 350"/>
+          <path id="p2" class="ln" d="M300 110 C 300 200, 300 260, 300 390"/>
+          <path id="p3" class="ln" d="M300 110 C 380 170, 460 220, 480 350"/>
+          <circle r="5" class="pk"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+          <circle r="5" class="pk"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle>
+          <circle r="5" class="pk"><animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion></circle>
+          <circle cx="300" cy="96" r="90" fill="url(#gA)"/>
+          <rect x="250" y="50" width="100" height="92" rx="28" fill="#6f58ea"/>
+          <text x="300" y="108" text-anchor="middle" font-size="34" fill="#fff">✦</text>
+          <text x="300" y="34" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#e8e9ee" data-i18n-svg="net.agent">Один агент</text>
+          <g font-family="Inter, sans-serif" text-anchor="middle">
+            <g transform="translate(120 395)"><rect x="-62" y="-44" width="124" height="80" rx="12" fill="#121419" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/><rect x="-52" y="-34" width="104" height="54" rx="5" fill="#1b2a1a"/><text y="-2" font-family="JBMono, monospace" font-size="12" fill="#c6f82c" data-i18n-svg="net.t1">build ✓</text><text y="62" font-size="14" fill="#c9ccd5" data-i18n-svg="net.pc1">Домашний ПК</text></g>
+            <g transform="translate(300 435)"><rect x="-62" y="-44" width="124" height="80" rx="12" fill="#121419" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/><rect x="-52" y="-34" width="104" height="54" rx="5" fill="#1a1f2e"/><text y="-2" font-family="JBMono, monospace" font-size="12" fill="#5fe1ff" data-i18n-svg="net.t2">tests…</text><text y="62" font-size="14" fill="#c9ccd5" data-i18n-svg="net.pc2">Ноутбук</text></g>
+            <g transform="translate(480 395)"><rect x="-62" y="-44" width="124" height="80" rx="12" fill="#121419" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/><rect x="-52" y="-34" width="104" height="54" rx="5" fill="#2a2214"/><text y="-2" font-family="JBMono, monospace" font-size="12" fill="#ffb547" data-i18n-svg="net.t3">report.md</text><text y="62" font-size="14" fill="#c9ccd5" data-i18n-svg="net.pc3">Рабочий ПК</text></g>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="conn">
+      <div class="cn rv"><span class="gi">🏠</span><b data-i18n="cn.1">Только этот ПК</b><p data-i18n="cn.1p">Для агента на этом же компьютере: Claude Code, Cursor, Codex. Наружу ничего не открывается.</p><span class="tag tag-n" data-i18n="cn.1t">локально</span></div>
+      <div class="cn rec rv" style="--d:.05s"><span class="gi">🌐</span><b>ngrok</b><p data-i18n="cn.2p">Для веб-чатов: ChatGPT, Claude, Notion. Мастер сделает техническую часть сам — вам останется войти и вставить ключ.</p><span class="tag tag-ok" data-i18n="cn.2t">для веб-чата</span></div>
+      <div class="cn rv" style="--d:.1s"><span class="gi">🔒</span><b>Tailscale</b><p data-i18n="cn.3p">Для своих компьютеров в частной сети, без публичного адреса.</p><span class="tag tag-v" data-i18n="cn.3t">свои ПК</span></div>
+      <div class="cn rv" style="--d:.15s"><span class="gi">☁</span><b>Cloudflare Tunnel</b><p data-i18n="cn.4p">Если есть свой домен. Туннель создаётся в Cloudflare Zero Trust.</p><span class="tag tag-n" data-i18n="cn.4t">свой домен</span></div>
+      <div class="cn rv" style="--d:.2s"><span class="gi">🖧</span><b data-i18n="cn.5">Свой SSH-сервер</b><p data-i18n="cn.5p">Для тех, у кого уже есть собственный сервер.</p><span class="tag tag-n" data-i18n="cn.5t">для опытных</span></div>
+    </div>
+    <p class="conn-note rv" data-i18n="cn.note">Аккаунты и домены — ваши. У проекта нет своего шлюза между ИИ и вашим ПК.</p>
+  </div>
+</section>
+
+<!-- ============ VIDEO ============ -->
+<section class="sec" id="video">
+  <div class="w">
+    <div class="sec-head">
+      <p class="eyebrow lime rv" data-i18n="vid.eye">Видео</p>
+      <h2 class="h2 rv" data-i18n="vid.h2">Посмотрите на <em>настоящую</em> работу.</h2>
+      <p class="sub rv" data-i18n="vid.sub">Записи экрана из репозитория проекта, без постановки. Видео на английском, но всё понятно и без слов.</p>
+    </div>
+    <div class="theater">
+      <div class="screen rv-scale">
+        <canvas class="ambi" id="ambi" width="64" height="36" aria-hidden="true"></canvas>
+        <div class="vbox"><video id="tv" controls playsinline preload="metadata" poster="assets/poster-overview.jpg" src="assets/demo-overview.mp4"></video></div>
+        <div class="vcap"><span><b data-i18n="vid.now">Сейчас:</b> <span id="vTitle" data-i18n="v1.t">Обзор за минуту</span></span><span data-i18n="vid.src">Источник: README на GitHub</span></div>
+      </div>
+      <div>
+        <div class="plist" role="tablist" id="plist">
+          <button type="button" class="pv" role="tab" aria-selected="true" data-src="assets/demo-overview.mp4" data-poster="assets/poster-overview.jpg"><span class="pv-th"><img src="assets/poster-overview.jpg" alt="" loading="lazy"><span>1:01</span></span><span><b data-i18n="v1.t">Обзор за минуту</b><small data-i18n="v1.d">Что такое ZeroIDE MCP и что он умеет</small></span><span class="pv-bar"><i></i></span></button>
+          <button type="button" class="pv" role="tab" aria-selected="false" data-src="assets/demo-setup-notion.mp4" data-poster="assets/poster-setup.jpg"><span class="pv-th"><img src="assets/poster-setup.jpg" alt="" loading="lazy"><span>2:01</span></span><span><b data-i18n="v2.t">Установка с ИИ-агентом и задача в Notion</b><small data-i18n="v2.d">Реальная установка от начала до первой задачи</small></span><span class="pv-bar"><i></i></span></button>
+          <button type="button" class="pv" role="tab" aria-selected="false" data-src="assets/demo-wizard.mp4" data-poster="assets/poster-wizard.jpg"><span class="pv-th"><img src="assets/poster-wizard.jpg" alt="" loading="lazy"><span>1:18</span></span><span><b data-i18n="v3.t">Установка вручную через мастер</b><small data-i18n="v3.d">С версии 0.4.0 — шаг за шагом, без агента</small></span><span class="pv-bar"><i></i></span></button>
+        </div>
+        <p class="vnote" data-i18n="vid.note">Видео идут одно за другим. Подсветка вокруг плеера берёт цвета из самого видео.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTALL ============ -->
+<section class="sec" id="install">
+  <div class="w">
+    <div class="sec-head">
+      <p class="eyebrow lime rv" data-i18n="in.eye">Установка</p>
+      <h2 class="h2 rv" data-i18n="in.h2">Три шага. <em>Без командной строки.</em></h2>
+      <p class="sub rv" data-i18n="in.sub">Права администратора не нужны. Мастер настройки объясняет каждый шаг простыми словами.</p>
+    </div>
+    <div class="isteps">
+      <article class="is rv"><span class="n">01</span><h3 data-i18n="in.1">Скачайте</h3><p data-i18n="in.1p">Архив <code>zeroide-mcp.zip</code> по кнопке ниже. Аккаунт GitHub не нужен. Архивы «Source code» не подойдут.</p>
+        <div class="mini"><div class="mini-zip"><span class="z"></span><div><b>zeroide-mcp.zip</b><small data-i18n="in.size">68 МБ · v0.4.0</small><div class="bar"><i></i></div></div></div></div></article>
+      <article class="is rv" style="--d:.08s"><span class="n">02</span><h3 data-i18n="in.2">Запустите мастер</h3><p data-i18n="in.2p">Распакуйте архив и откройте <code>ZeroIDE-MCP.exe</code>. Мастер объяснит, что делает программа, и всё установит сам.</p>
+        <div class="mini"><div class="mini-wiz"><div class="wt"><i></i><i></i><i></i></div><div class="opt sel"><i></i><span data-i18n="in.o1">Вручную, с подсказками</span></div><div class="opt"><i></i><span data-i18n="in.o2">Через ИИ-агента на этом ПК</span></div></div></div></article>
+      <article class="is rv" style="--d:.16s"><span class="n">03</span><h3 data-i18n="in.3">Подключите свой ИИ</h3><p data-i18n="in.3p">Выберите, кого подключаем: ChatGPT, Claude, Notion, агента на этом ПК или другой компьютер. Мастер проведёт через подключение.</p>
+        <div class="mini"><div class="mini-chat"><div class="b u" data-i18n="in.c1">Что лежит у меня на рабочем столе?</div><div class="b a" data-i18n="in.c2"><b>✓ list_directory</b> · 12 файлов и 3 папки. Показать список?</div></div></div></article>
+    </div>
+
+    <div class="dl rv">
+      <div>
+        <h3 data-i18n="dl.h">ZeroIDE MCP 0.4.0 для Windows</h3>
+        <ul class="specs">
+          <li data-i18n="dl.s1">Windows 10 или 11, x64</li>
+          <li data-i18n="dl.s2">PowerShell 5.1 или новее</li>
+          <li data-i18n="dl.s3">Без прав администратора</li>
+          <li data-i18n="dl.s4">Ставится в %LOCALAPPDATA%\ZeroIDE-MCP</li>
+          <li data-i18n="dl.s5">Интернет при установке: Node.js скачивается и сверяется по SHA-256</li>
+          <li data-i18n="dl.s6">MCP сам не включается — только вы</li>
+        </ul>
+      </div>
+      <div class="dl-r">
+        <a class="btn btn-lg btn-lime magnet" href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip"><svg width="20" height="20"><use href="#i-dl"/></svg><span data-i18n="dl.b">Скачать zeroide-mcp.zip</span></a>
+        <div class="hash"><code id="hashCmd">Get-FileHash .\zeroide-mcp.zip -Algorithm SHA256</code><button type="button" data-copy="hashCmd" data-i18n="copy">Копировать</button></div>
+        <div class="dl-links"><a href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip.sha256" data-i18n="dl.sha">Контрольная сумма</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest" target="_blank" rel="noopener" data-i18n="dl.rel">Все релизы</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="dl.chg">Что нового</a></div>
+      </div>
+    </div>
+
+    <div class="imore">
+      <article class="card rv"><h3><span>🛡</span><span data-i18n="im.1">Если Windows предупредит</span></h3><p data-i18n="im.1p">Приложение пока без цифровой подписи, поэтому SmartScreen может показать предупреждение. Это тот же exe, что опубликован в релизе, — хеш архива можно сверить командой выше.</p>
+        <ol><li data-i18n="im.1a">Нажмите «Подробнее»</li><li data-i18n="im.1b">Затем — «Выполнить в любом случае»</li><li data-i18n="im.1c">Откроется мастер настройки</li></ol></article>
+      <article class="card rv" style="--d:.08s"><h3><span>🤖</span><span data-i18n="im.2">Или пусть ИИ установит сам</span></h3><p data-i18n="im.2p">Есть Claude Code, Cursor или Codex? Мастер даст готовое задание, а агент пройдёт установку по инструкции AGENT_INSTALL.md из архива. Например:</p>
+        <div class="prompt"><span id="agentPrompt" data-i18n="im.2q">Распакуй zeroide-mcp.zip и установи ZeroIDE MCP по инструкции AGENT_INSTALL.md из архива. Перед каждой командой объясни, что делаешь.</span><button type="button" class="btn btn-sm btn-dark" data-copy="agentPrompt" data-i18n="copy">Копировать</button></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <div class="w w-narrow">
+    <div class="sec-head center">
+      <p class="eyebrow lime rv" data-i18n="faq.eye">Вопросы</p>
+      <h2 class="h2 rv" data-i18n="faq.h2">Что обычно спрашивают</h2>
+    </div>
+    <div class="faq">
+      <details class="rv" open><summary data-i18n="fq.1">Нужно ли уметь программировать?</summary><p class="a" data-i18n="fa.1">Нет. Мастер настройки проводит по шагам, а задачи вы ставите ИИ обычными словами. Важно одно: перед тем как нажать «Разрешить», прочитайте, что ИИ собирается сделать.</p></details>
+      <details class="rv"><summary data-i18n="fq.2">Это безопасно?</summary><p class="a" data-i18n="fa.2">Программа сделана ради контроля: выключена по умолчанию, спрашивает разрешения на запись и команды, выдаёт ограниченные пропуска и ведёт журнал. Но это не песочница: разрешённые команды выполняются с правами вашего пользователя Windows. Разрешайте только то, что понимаете.</p></details>
+      <details class="rv"><summary data-i18n="fq.3">Какие ИИ подойдут?</summary><p class="a" data-i18n="fa.3">Любой клиент с поддержкой MCP: Claude, ChatGPT, Notion, Cursor, Codex, Claude Code и другие. Протестированы пока не все.</p></details>
+      <details class="rv"><summary data-i18n="fq.4">Нужен ли аккаунт на GitHub?</summary><p class="a" data-i18n="fa.4">Нет. Кнопка «Скачать» берёт файл из релиза на GitHub, входить никуда не нужно.</p></details>
+      <details class="rv"><summary data-i18n="fq.5">Сколько это стоит?</summary><p class="a" data-i18n="fa.5">Нисколько. Открытый код, лицензия MIT-0. У ngrok, Tailscale или Cloudflare свои условия, если вы ими пользуетесь.</p></details>
+      <details class="rv"><summary data-i18n="fq.6">Куда уходят мои данные?</summary><p class="a" data-i18n="fa.6">Программа работает на вашем ПК, своего сервера у проекта нет. То, что ИИ прочитал, попадает в тот ИИ-сервис, которым вы пользуетесь, — по его правилам. Поэтому ограничивайте пропуск нужной папкой.</p></details>
+      <details class="rv"><summary data-i18n="fq.7">Работает на Mac или Linux?</summary><p class="a" data-i18n="fa.7">Пока нет. Версия 0.4.0 — для Windows 10 и 11 (x64).</p></details>
+      <details class="rv"><summary data-i18n="fq.8">Можно подключить несколько компьютеров?</summary><p class="a" data-i18n="fa.8">Да. Поставьте программу на каждый ПК и добавьте каждый в ИИ-клиент отдельным MCP-сервером. Пропуск одного ПК к другому не подходит.</p></details>
+      <details class="rv"><summary data-i18n="fq.9">Как всё удалить?</summary><p class="a" data-i18n="fa.9">Настройки → «Удаление». Программа остановит подключения и удалит папку установки со всеми токенами и журналами, ярлык в меню «Пуск» и автозапуск.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL ============ -->
+<section class="final">
+  <div class="w">
+    <h2 class="rv" data-i18n="fin.h">Дайте ИИ руки. <em>Ключ оставьте себе.</em></h2>
+    <p class="rv" data-i18n="fin.p">Бесплатно. 68 МБ. Три шага до первой задачи.</p>
+    <div class="hero-cta rv">
+      <a class="btn btn-lg btn-lime magnet" href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip"><svg width="20" height="20"><use href="#i-dl"/></svg><span data-i18n="hero.cta">Скачать для Windows</span></a>
+      <a class="btn btn-lg btn-ghost magnet" href="https://github.com/Danywalery/ZeroIDE-MCP" target="_blank" rel="noopener"><svg width="18" height="18"><use href="#i-gh"/></svg><span data-i18n="fin.gh">Исходный код на GitHub</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="w">
+    <div class="foot-in">
+      <div><a class="brand" href="#top"><svg class="mark"><use href="#i-z"/></svg><span>ZeroIDE MCP</span><small>v0.4.0</small></a><p data-i18n="ft.p">Открытый код, лицензия MIT-0. Проект не связан с разработчиками ИИ-сервисов.</p></div>
+      <div><h4 data-i18n="ft.h1">Продукт</h4><nav><a href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest/download/zeroide-mcp.zip" data-i18n="nav.dl">Скачать</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/releases/latest" target="_blank" rel="noopener" data-i18n="dl.rel">Все релизы</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="dl.chg">Что нового</a></nav></div>
+      <div><h4 data-i18n="ft.h2">Документация</h4><nav><a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/README.ru.md" data-i18n-href="readme" target="_blank" rel="noopener">README</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/CONNECTIONS.md" target="_blank" rel="noopener" data-i18n="ft.conn">Подключения</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/SECURITY.md" target="_blank" rel="noopener" data-i18n="ft.sec">Безопасность</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/blob/main/AGENT_INSTALL.md" target="_blank" rel="noopener" data-i18n="ft.agent">Установка через агента</a></nav></div>
+      <div><h4 data-i18n="ft.h3">Сообщество</h4><nav><a href="https://github.com/Danywalery/ZeroIDE-MCP" target="_blank" rel="noopener">GitHub</a><a href="https://github.com/Danywalery/ZeroIDE-MCP/issues" target="_blank" rel="noopener" data-i18n="ft.iss">Сообщить о проблеме</a></nav></div>
+    </div>
+    <div class="foot-b"><span>© 2026 ZeroIDE MCP</span><span data-i18n="ft.b">Для тех, кто хочет, чтобы ИИ не только советовал, но и делал.</span></div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Видео">
+  <button type="button" class="modal-x" id="modalX" aria-label="Закрыть">✕</button>
+  <div class="modal-box"><video id="mvid" controls playsinline></video></div>
+</div>
+<div class="copied" id="copied" data-i18n="copied">Скопировано</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/field.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
