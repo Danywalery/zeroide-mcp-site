@@ -250,8 +250,9 @@
   (function passB() {
     var pass = $("pass"); if (!pass) return;
     var st = { who: "Claude", scope: "read", root: "proj", exp: "7", lim: "500" };
-    /* order: 9 read tools, journal_entry, write_file, edit_file, take_screenshot, run_command */
-    var TOOLS = ["read_file", "list_directory", "search_files", "job_status", "job_output", "audit_log", "journal_log", "user_message", "task_status", "journal_entry", "write_file", "edit_file", "take_screenshot", "run_command"];
+    /* order: 13 read-scope tools (read_image asks), 5 readwrite tools, run_command */
+    var TOOLS = ["read_file", "list_directory", "search_files", "system_info", "job_status", "job_output", "audit_log", "journal_log", "user_message", "task_status", "agent_message", "await_owner", "read_image", "journal_entry", "write_file", "edit_file", "file_ops", "take_screenshot", "run_command"];
+    var ASK = { read_image: 1, write_file: 1, edit_file: 1, file_ops: 1, take_screenshot: 1, run_command: 1 };
     var bars = $("pTools"); bars.innerHTML = TOOLS.map(function (t) { return '<i title="' + t + '"></i>'; }).join("");
     var bi = $$("i", bars), revoked = false;
     function fmtDate(days) { var d = new Date(Date.now() + days * 864e5); return d.toLocaleDateString(ZI.lang === "en" ? "en-GB" : "ru-RU"); }
@@ -262,8 +263,8 @@
       $("pRoot").textContent = root;
       $("pExp").textContent = st.exp === "0" ? T("e.0") : fmtDate(+st.exp);
       $("pLim").textContent = st.lim === "0" ? T("l.0") : (+st.lim).toLocaleString(ZI.lang === "en" ? "en-US" : "ru-RU");
-      var n = st.scope === "read" ? 9 : st.scope === "readwrite" ? 13 : 14;
-      bi.forEach(function (b, i) { b.className = i < n ? (i >= 10 ? "is-ask" : "is-on") : ""; });
+      var n = st.scope === "read" ? 13 : st.scope === "readwrite" ? 18 : 19;
+      bi.forEach(function (b, i) { b.className = i < n ? (ASK[TOOLS[i]] ? "is-ask" : "is-on") : ""; });
       $("pCount").innerHTML = T("pass.count", { n: n });
       $("scopeHint").textContent = T("scope." + st.scope);
       $("revoke").textContent = revoked ? T("pass.reissue") : T("pass.revB");
